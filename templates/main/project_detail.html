@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+  <title>SaraCo - صفحه اصلی</title>
+  <!-- SEO Meta Tags-->
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+{% endblock head %}
+
+{% block main %}
+  <!-- Breadcrumb-->
+  <nav class="mb-3 pt-md-3" aria-label="breadcrumb">
+      <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'home' %}">خانه</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'project-list' %}">پروژه های انجام شده</a></li>
+          <li class="breadcrumb-item active" aria-current="page">{{ project.title }}</li>
+      </ol>
+  </nav>
+  <h1 class="h2 mb-2 font-vazir">{{ project.title }}</h1>
+  <!-- Gallery-->
+  <section class="container overflow-auto mb-4 pb-3" data-simplebar>
+    <div class="row g-2 g-md-3 gallery" data-thumbnails="true" style="min-width: 30rem;">
+      <div class="col-8">
+        <a class="gallery-item rounded rounded-md-3" href="{{ project.primary_image.image.url }}" data-sub-html="&lt;h6 class=&quot;fs-sm text-light&quot;&gt;سرویس بهداشتی&lt;/h6&gt;"><img src="{{ project.primary_image.image.url }}" alt="Gallery thumbnail"></a>
+      </div>
+      {% for image in project.images %}
+        {% if forloop.counter <= 2 %}
+          <div class="col-4">
+            <a class="gallery-item rounded rounded-md-3 mb-2 mb-md-3" href="{{ image.image.url }}" data-sub-html="&lt;h6 class=&quot;fs-sm text-light&quot;&gt;اتاق خواب&lt;/h6&gt;"><img src="{{ image.image.url }}" alt="Gallery thumbnail"></a>
+            <a class="gallery-item rounded rounded-md-3" href="{{ image.image.url }}" data-sub-html="&lt;h6 class=&quot;fs-sm text-light&quot;&gt;پذیرایی&lt;/h6&gt;"><img src="{{ image.image.url }}" alt="Gallery thumbnail"></a>
+          </div>
+        {% elif 8 >= forloop.counter >= 3 %}
+          <div class="col-12">
+            <div class="row g-2 g-md-3">
+              <div class="col"><a class="gallery-item rounded-1 rounded-md-2" href="{{ image.image.url }}" data-sub-html="&lt;h6 class=&quot;fs-sm text-light&quot;&gt;اتاق خواب&lt;/h6&gt;"><img src="{{ image.image.url }}" alt="Gallery thumbnail"></a></div>
+              <div class="col"><a class="gallery-item rounded-1 rounded-md-2" href="{{ image.image.url }}" data-sub-html="&lt;h6 class=&quot;fs-sm text-light&quot;&gt;آشپزخانه&lt;/h6&gt;"><img src="{{ image.image.url }}" alt="Gallery thumbnail"></a></div>
+              <div class="col"><a class="gallery-item rounded-1 rounded-md-2" href="{{ image.image.url }}" data-sub-html="&lt;h6 class=&quot;fs-sm text-light&quot;&gt;پذیرایی&lt;/h6&gt;"><img src="{{ image.image.url }}" alt="Gallery thumbnail"></a></div>
+              <div class="col"><a class="gallery-item rounded-1 rounded-md-2" href="{{ image.image.url }}" data-sub-html="&lt;h6 class=&quot;fs-sm text-light&quot;&gt;سرویس بهداشتی&lt;/h6&gt;"><img src="{{ image.image.url }}" alt="Gallery thumbnail"></a></div>
+        {% elif forloop.counter >= 9 %}
+          <div class="col"><a class="gallery-item more-item rounded-1 rounded-md-2" href="{{ image.image.url }}" data-sub-html="&lt;h6 class=&quot;fs-sm text-light&quot;&gt;سرویس بهداشتی&lt;/h6&gt;"><img src="{{ image.image.url }}" alt="Gallery thumbnail"><span class="gallery-item-caption fs-base"><span class='d-none d-md-inline'>سایر تصاویر</span> +{{ my_list|length|add:"-8" }} </span></a></div>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </section>
+{% endblock main %}

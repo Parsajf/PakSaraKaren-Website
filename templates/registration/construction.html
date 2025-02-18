@@ -1,0 +1,472 @@
+{% extends "base_submit_project.html" %}
+{% load static %}
+
+{% block head %}
+  <title>SaraCo - صفحه اصلی</title>
+  <!-- SEO Meta Tags-->
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+{% endblock head %}
+
+{% block main %}
+<!-- Page container-->
+  <div class="container mt-5 mb-md-4 py-5">
+    <div class="row">
+      <!-- Page content-->
+      <div class="col-lg-8 add-property">
+        <!-- Breadcrumb-->
+        <nav class="mb-3 pt-md-3" aria-label="Breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{% url 'home' %}">خانه</a></li>
+              <li class="breadcrumb-item active" aria-current="page">فرم همکاری</li>
+            </ol>
+        </nav>
+        {% comment %} {% if messages %}
+          {% for message in messages %}
+              <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}</div>
+          {% endfor %}
+        {% endif %} {% endcomment %}
+        <!-- Title-->
+        <div class="mb-4">
+            <h1 class="h2 mb-0">فرم همکاری</h1>
+            {% comment %} <div class="d-lg-none pt-3 mb-2">65% اطلاعات تکمیل شده است.</div>
+            <div class="progress d-lg-none mb-4" style="height: .25rem;">
+              <div class="progress-bar bg-warning" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+            </div> {% endcomment %}
+        </div>
+        <div class="btn-group w-100 p-4" role="group" aria-label="Solid button group">
+            <button type="button" class="btn btn-primary" id="person">حقیقی</button>
+            <button type="button" class="btn btn-outline-primary" id="company">حقوقی</button>
+        </div>
+        <form method="post" action="{% url 'person-registration' %}" class="needs-validation" id="person_form" style="display: block;" novalidate>
+          {% csrf_token %}
+          <!-- Personal info-->
+          <section class="card card-body border-0 shadow-sm p-4 mb-4" id="basic-info">
+              <h2 class="h5 mb-4"><i class="fi-info-circle text-primary fs-5 mt-n1 me-2"></i>اطلاعات شخصی</h2>
+              <div class="row">
+                <div class="col-sm-6 mb-3">
+                  <label class="form-label" for="ap-category">نام<span class="text-danger">*</span></label>
+                  {{ person_form.first_name }}
+                  {% comment %} <input class="form-control" type="text" id="person-name" placeholder="نام شخص" required> {% endcomment %}
+                </div>
+                <div class="col-sm-6 mb-3">
+                  <label class="form-label" for="ap-type">نام خانوادگی<span class="text-danger">*</span></label>
+                  {{ person_form.last_name }}
+                  {% comment %} <input class="form-control" type="text" id="personal-last-name" placeholder="نام خانوادگی شخص" required> {% endcomment %}
+                </div>
+              </div>
+              <div class="row">
+                  <div class="col-sm-6 mb-3">
+                    <label class="form-label" for="ap-category">شماره موبایل<span class="text-danger">*</span></label>
+                    {{ person_form.phone_number }}
+                    {% comment %} <input class="form-control" type="text" id="person-name" placeholder="شماره موبایل" required> {% endcomment %}
+                  </div>
+                  <div class="col-sm-6 mb-3">
+                    <label class="form-label" for="ap-type">ایمیل<span class="text-danger">*</span></label>
+                    {{ person_form.email }}
+                    {% comment %} <input class="form-control" type="text" id="personal-last-name" placeholder="ایمیل" required> {% endcomment %}
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6 mb-3">
+                  <label class="form-label" for="ap-category">رمزعبور<span class="text-danger">*</span></label>
+                  {{ person_form.password }}
+                  {% comment %} <input class="form-control" type="text" id="person-name" placeholder="شماره موبایل" required> {% endcomment %}
+                </div>
+                <div class="col-sm-6 mb-3">
+                  <label class="form-label" for="ap-type">تایید رمزعبور<span class="text-danger">*</span></label>
+                  {{ person_form.confirm_password }}
+                  {% comment %} <input class="form-control" type="text" id="personal-last-name" placeholder="ایمیل" required> {% endcomment %}
+                </div>
+            </div>
+          </section>
+          <!-- Location-->
+          <section class="card card-body border-0 shadow-sm p-4 mb-4" id="location">
+            <h2 class="h5 mb-4"><i class="fi-map-pin text-primary fs-5 mt-n1 me-2"></i>موقعیت مکانی</h2>
+            <div class="row">
+              <div class="col-sm-6 mb-3">
+                <label class="form-label" for="state">استان<span class="text-danger">*</span></label>
+                {{ person_form.state }}
+                {% comment %} <input class="form-control" type="text" id="state" placeholder="استان" required> {% endcomment %}
+              </div>
+              <div class="col-sm-6 mb-3">
+                <label class="form-label" for="city">شهر <span class="text-danger">*</span></label>
+                {{ person_form.city }}
+                {% comment %} <input class="form-control" type="text" id="city" placeholder="شهر" required> {% endcomment %}
+              </div>
+            </div>
+          </section>
+          <!-- Recommend Property -->
+          <section class="card card-body border-0 shadow-sm p-4 mb-4" id="details">
+            <h2 class="h5 mb-4"><i class="fi-edit text-primary fs-5 mt-n1 me-2"></i>پروژه های مورد نیاز</h2>
+            <div class="row">
+                <label class="form-label" for="ap-category">متراژ</label>
+              <div class="col-sm-5 mb-3">
+                {{ person_form.min_area }}
+                {% comment %} <input class="form-control" type="text" id="min-area" placeholder="حداقل متراژ" required> {% endcomment %}
+              </div>
+              <div style="text-align: center;" class="col-sm-2 mb-3">
+                <label class="form-label" for="ap-category">تا</label>
+              </div>
+              <div class="col-sm-5 mb-3">
+                {{ person_form.max_area }}
+                {% comment %} <input class="form-control" type="text" id="max-area" placeholder="حداکثر متراژ" required> {% endcomment %}
+              </div>
+            </div>
+            <div class="row">
+                <label class="form-label" for="ap-category">طبقات</label>
+              <div class="col-sm-5 mb-3">
+                {{ person_form.min_floors }}
+                {% comment %} <input class="form-control" type="text" id="min-area" placeholder="حداقل طبقات" required> {% endcomment %}
+              </div>
+              <div style="text-align: center;" class="col-sm-2 mb-3">
+                <label class="form-label" for="ap-category">تا</label>
+              </div>
+              <div class="col-sm-5 mb-3">
+                {{ person_form.max_floors }}
+                {% comment %} <input class="form-control" type="text" id="max-area" placeholder="حداکثر طبقات" required> {% endcomment %}
+              </div>
+            </div>
+            <div class="row">
+                <label class="form-label" for="district">منطقه <span class="text-danger">*</span></label>
+                <div class="col-sm-2 mb-3">
+                    {{ person_form.district_1st }}
+                    {% comment %} <input class="form-control" type="number" id="district1" min="1" required> {% endcomment %}
+                </div>
+                <div class="col-sm-2 mb-3">
+                    {{ person_form.district_2nd }}
+                    {% comment %} <input class="form-control" type="number" id="district2" min="1" hidden required> {% endcomment %}
+                </div>
+                <div class="col-sm-2 mb-3">
+                    {{ person_form.district_3rd }}
+                    {% comment %} <input class="form-control" type="number" id="district3" min="1" hidden required> {% endcomment %}
+                </div>
+                <div class="col-sm-2 mb-3">
+                    {{ person_form.district_4th }}
+                    {% comment %} <input class="form-control" type="number" id="district4" min="1" hidden required> {% endcomment %}
+                </div>
+                <div class="col-sm-2 mb-3">
+                    {{ person_form.district_5th }}
+                    {% comment %} <input class="form-control" type="number" id="district5" min="1" hidden required> {% endcomment %}
+                </div>
+                <div class="col-sm-2 mb-3">
+                    <button type="button" id="add-district-button" class="fi-plus me-2 btn btn-lg btn-primary w-100" onclick="showNextDistrict()"></button>
+                </div>
+            </div>
+            <p>عدد را به انگلیسی وارد کنید</p>
+          </section>
+          <section class="d-sm-flex justify-content-between pt-2"><button class="btn btn-lg btn-primary w-sm-auto w-100" type="submit" id="person_submit">ثبت نام</button></section> 
+      </form>
+
+      <form method="post" action="{% url 'company-registration' %}" class="needs-validation" id="company_form" style="display: none;" novalidate>
+        {% csrf_token %}
+        <!-- Personal info-->
+        <section class="card card-body border-0 shadow-sm p-4 mb-4" id="basic-info">
+            <h2 class="h5 mb-4"><i class="fi-info-circle text-primary fs-5 mt-n1 me-2"></i>اطلاعات شرکت</h2>
+            <div class="mb-3">
+              <label class="form-label" for="ap-category">نام شرکت<span class="text-danger">*</span></label>
+              {{ company_form.name }}
+              {% comment %} <input class="form-control" type="text" id="person-name" placeholder="نام شخص" required> {% endcomment %}
+            </div>
+            <div class="row">
+                <div class="col-sm-6 mb-3">
+                  <label class="form-label" for="ap-category">شماره موبایل<span class="text-danger">*</span></label>
+                  {{ company_form.phone_number }}
+                  {% comment %} <input class="form-control" type="text" id="person-name" placeholder="شماره موبایل" required> {% endcomment %}
+                </div>
+                <div class="col-sm-6 mb-3">
+                  <label class="form-label" for="ap-type">ایمیل<span class="text-danger">*</span></label>
+                  {{ company_form.email }}
+                  {% comment %} <input class="form-control" type="text" id="personal-last-name" placeholder="ایمیل" required> {% endcomment %}
+                </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6 mb-3">
+                <label class="form-label" for="ap-category">رمزعبور<span class="text-danger">*</span></label>
+                {{ company_form.password }}
+                {% comment %} <input class="form-control" type="text" id="person-name" placeholder="شماره موبایل" required> {% endcomment %}
+              </div>
+              <div class="col-sm-6 mb-3">
+                <label class="form-label" for="ap-type">تایید رمزعبور<span class="text-danger">*</span></label>
+                {{ company_form.confirm_password }}
+                {% comment %} <input class="form-control" type="text" id="personal-last-name" placeholder="ایمیل" required> {% endcomment %}
+              </div>
+          </div>
+        </section>
+        <!-- Location-->
+        <section class="card card-body border-0 shadow-sm p-4 mb-4" id="location">
+          <h2 class="h5 mb-4"><i class="fi-map-pin text-primary fs-5 mt-n1 me-2"></i>موقعیت مکانی</h2>
+          <div class="row">
+            <div class="col-sm-6 mb-3">
+              <label class="form-label" for="state">استان<span class="text-danger">*</span></label>
+              {{ company_form.state }}
+              {% comment %} <input class="form-control" type="text" id="state" placeholder="استان" required> {% endcomment %}
+            </div>
+            <div class="col-sm-6 mb-3">
+              <label class="form-label" for="city">شهر <span class="text-danger">*</span></label>
+              {{ company_form.city }}
+              {% comment %} <input class="form-control" type="text" id="city" placeholder="شهر" required> {% endcomment %}
+            </div>
+          </div>
+        </section>
+        <!-- Recommend Property -->
+        <section class="card card-body border-0 shadow-sm p-4 mb-4" id="details">
+          <h2 class="h5 mb-4"><i class="fi-edit text-primary fs-5 mt-n1 me-2"></i>پروژه های مورد نیاز</h2>
+          <div class="row">
+              <label class="form-label" for="ap-category">متراژ</label>
+            <div class="col-sm-5 mb-3">
+              {{ company_form.min_area }}
+              {% comment %} <input class="form-control" type="text" id="min-area" placeholder="حداقل متراژ" required> {% endcomment %}
+            </div>
+            <div style="text-align: center;" class="col-sm-2 mb-3">
+              <label class="form-label" for="ap-category">تا</label>
+            </div>
+            <div class="col-sm-5 mb-3">
+              {{ company_form.max_area }}
+              {% comment %} <input class="form-control" type="text" id="max-area" placeholder="حداکثر متراژ" required> {% endcomment %}
+            </div>
+          </div>
+          <div class="row">
+              <label class="form-label" for="ap-category">طبقات</label>
+            <div class="col-sm-5 mb-3">
+              {{ company_form.min_floors }}
+              {% comment %} <input class="form-control" type="text" id="min-area" placeholder="حداقل طبقات" required> {% endcomment %}
+            </div>
+            <div style="text-align: center;" class="col-sm-2 mb-3">
+              <label class="form-label" for="ap-category">تا</label>
+            </div>
+            <div class="col-sm-5 mb-3">
+              {{ company_form.max_floors }}
+              {% comment %} <input class="form-control" type="text" id="max-area" placeholder="حداکثر طبقات" required> {% endcomment %}
+            </div>
+          </div>
+          <div class="row">
+              <label class="form-label" for="district">منطقه <span class="text-danger">*</span></label>
+              <div class="col-sm-2 mb-3">
+                  {{ company_form.district_1st }}
+                  {% comment %} <input class="form-control" type="number" id="district1" min="1" required> {% endcomment %}
+              </div>
+              <div class="col-sm-2 mb-3">
+                  {{ company_form.district_2nd }}
+                  {% comment %} <input class="form-control" type="number" id="district2" min="1" hidden required> {% endcomment %}
+              </div>
+              <div class="col-sm-2 mb-3">
+                  {{ company_form.district_3rd }}
+                  {% comment %} <input class="form-control" type="number" id="district3" min="1" hidden required> {% endcomment %}
+              </div>
+              <div class="col-sm-2 mb-3">
+                  {{ company_form.district_4th }}
+                  {% comment %} <input class="form-control" type="number" id="district4" min="1" hidden required> {% endcomment %}
+              </div>
+              <div class="col-sm-2 mb-3">
+                  {{ company_form.district_5th }}
+                  {% comment %} <input class="form-control" type="number" id="district5" min="1" hidden required> {% endcomment %}
+              </div>
+              <div class="col-sm-2 mb-3">
+                  <button type="button" id="add-district-button" class="fi-plus me-2 btn btn-lg btn-primary w-100" onclick="showNextDistrict()"></button>
+              </div>
+          </div>
+        </section>
+        <section class="d-sm-flex justify-content-between pt-2"><button class="btn btn-lg btn-primary w-sm-auto w-100" type="submit" id="company_submit">ثبت نام</button></section> 
+    </form>
+    </div>
+      <!-- Progress of completion-->
+      {% comment %} <aside class="col-lg-3 offset-lg-1 d-none d-lg-block">
+        <div class="sticky-top pt-5">
+          <h6 class="pt-5 mt-3 mb-2" id="progress-text">0% محتوا تکمیل شده است.</h6>
+          <div class="progress mb-4" style="height: .25rem;">
+            <div class="progress-bar bg-primary" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+          <!-- Rest of the sidebar content -->
+          <ul class="list-unstyled">
+            <li class="d-flex align-items-center"><i class="fi-check text-muted me-2"></i><a class="nav-link fw-normal ps-1 p-0" href="#basic-info" data-scroll data-scroll-offset="20">اطلاعات شخصی</a></li>
+            <li class="d-flex align-items-center"><i class="fi-check text-muted me-2"></i><a class="nav-link fw-normal ps-1 p-0" href="#location" data-scroll data-scroll-offset="20">موقعیت مکانی</a></li>
+            <li class="d-flex align-items-center"><i class="fi-check text-muted me-2"></i><a class="nav-link fw-normal ps-1 p-0" href="#details" data-scroll data-scroll-offset="20">پروژه های مورد نیاز</a></li>
+          </ul>
+        </div>
+      </aside> {% endcomment %}
+      <aside class="col-lg-3 offset-lg-1 d-none d-lg-block">
+        <div class="sticky-top pt-5" id="person_progress_bar" style="display: block;">
+          <h6 class="pt-5 mt-3 mb-2" id="progress-text-person">0% محتوا تکمیل شده است.</h6>
+          <div class="progress mb-4" style="height: .25rem;">
+            <div class="progress-bar bg-primary" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+          <!-- Rest of the sidebar content -->
+          <ul class="list-unstyled">
+            <li class="d-flex align-items-center"><i class="fi-check text-muted me-2"></i><a class="nav-link fw-normal ps-1 p-0" href="#basic-info" data-scroll data-scroll-offset="20">اطلاعات شخصی</a></li>
+            <li class="d-flex align-items-center"><i class="fi-check text-muted me-2"></i><a class="nav-link fw-normal ps-1 p-0" href="#location" data-scroll data-scroll-offset="20">موقعیت مکانی</a></li>
+            <li class="d-flex align-items-center"><i class="fi-check text-muted me-2"></i><a class="nav-link fw-normal ps-1 p-0" href="#details" data-scroll data-scroll-offset="20">پروژه های مورد نیاز</a></li>
+          </ul>
+        </div>
+        <div class="sticky-top pt-5" id="company_progress_bar" style="display: none;">
+          <h6 class="pt-5 mt-3 mb-2" id="progress-text-company">0% محتوا تکمیل شده است.</h6>
+          <div class="progress mb-4" style="height: .25rem;">
+            <div class="progress-bar bg-primary" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+          <!-- Rest of the sidebar content -->
+          <ul class="list-unstyled">
+            <li class="d-flex align-items-center"><i class="fi-check text-muted me-2"></i><a class="nav-link fw-normal ps-1 p-0" href="#basic-info" data-scroll data-scroll-offset="20">اطلاعات شرکت</a></li>
+            <li class="d-flex align-items-center"><i class="fi-check text-muted me-2"></i><a class="nav-link fw-normal ps-1 p-0" href="#location" data-scroll data-scroll-offset="20">موقعیت مکانی</a></li>
+            <li class="d-flex align-items-center"><i class="fi-check text-muted me-2"></i><a class="nav-link fw-normal ps-1 p-0" href="#details" data-scroll data-scroll-offset="20">پروژه های مورد نیاز</a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div> 
+{% endblock main %}
+
+{% block script %}
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Get all sections for both forms
+      const personSections = [
+          { id: 'basic-info', fields: document.querySelectorAll('#person_form #basic-info input') },
+          { id: 'location', fields: document.querySelectorAll('#person_form #location input') },
+          { id: 'details', fields: document.querySelectorAll('#person_form #details input:not([name="min_area"]):not([name="max_area"]):not([name="min_floors"]):not([name="max_floors"]):not([name="district_2nd"]):not([name="district_3rd"]):not([name="district_4th"]):not([name="district_5th"])') }
+      ];
+      
+      const companySections = [
+          { id: 'basic-info', fields: document.querySelectorAll('#company_form #basic-info input') },
+          { id: 'location', fields: document.querySelectorAll('#company_form #location input') },
+          { id: 'details', fields: document.querySelectorAll('#company_form #details input:not([name="min_area"]):not([name="max_area"]):not([name="min_floors"]):not([name="max_floors"]):not([name="district_2nd"]):not([name="district_3rd"]):not([name="district_4th"]):not([name="district_5th"])') }
+      ];
+      
+      // Get the progress bars and progress texts for each form
+      const personProgressBar = document.querySelector("#person_progress_bar .progress-bar");
+      const personProgressText = document.getElementById("progress-text-person");
+
+      const companyProgressBar = document.querySelector("#company_progress_bar .progress-bar");
+      const companyProgressText = document.getElementById("progress-text-company");
+
+      // Function to calculate and update progress for each form
+      function calculateProgress(sections, progressBar, progressText, formType) {
+          let completedFields = 0;
+          let totalFields = 0;
+
+          sections.forEach(section => {
+              let sectionCompleted = true;
+
+              section.fields.forEach(field => {
+                  totalFields += 1;
+                  if (field.value.trim() !== "") {
+                      completedFields += 1;
+                  } else {
+                      sectionCompleted = false;
+                  }
+              });
+
+              // Update the section's status in the sidebar list if available
+              const sectionNavItem = document.querySelector(`#${formType}_progress_bar a[href="#${section.id}"]`).parentElement;
+              const icon = sectionNavItem.querySelector('i');
+              
+              if (sectionCompleted) {
+                  icon.classList.remove('text-muted');
+                  icon.classList.add('text-primary');
+              } else {
+                  icon.classList.remove('text-primary');
+                  icon.classList.add('text-muted');
+              }
+          });
+
+          // Calculate and update the progress bar
+          const completionPercentage = (completedFields / totalFields) * 100;
+          progressBar.style.width = `${completionPercentage}%`;
+          progressBar.setAttribute("aria-valuenow", completionPercentage);
+          progressText.textContent = `${Math.round(completionPercentage)}% محتوا تکمیل شده است.`;
+      }
+
+      // Initialize progress for both forms
+      calculateProgress(personSections, personProgressBar, personProgressText, "person");
+      calculateProgress(companySections, companyProgressBar, companyProgressText, "company");
+
+      // Add input event listeners to each field for both forms
+      personSections.forEach(section => {
+          section.fields.forEach(field => {
+              field.addEventListener("input", () => calculateProgress(personSections, personProgressBar, personProgressText, "person"));
+          });
+      });
+
+      companySections.forEach(section => {
+          section.fields.forEach(field => {
+              field.addEventListener("input", () => calculateProgress(companySections, companyProgressBar, companyProgressText, "company"));
+          });
+      });
+
+      // Toggle display between person and company forms with their respective progress bars
+      const personButton = document.getElementById('person');
+      const companyButton = document.getElementById('company');
+      const personForm = document.getElementById('person_form');
+      const companyForm = document.getElementById('company_form');
+      const personProgressContainer = document.getElementById('person_progress_bar');
+      const companyProgressContainer = document.getElementById('company_progress_bar');
+
+      personButton.addEventListener('click', function() {
+          companyButton.classList.replace('btn-primary', 'btn-outline-primary');
+          personButton.classList.replace('btn-outline-primary', 'btn-primary');
+
+          personForm.style.display = 'block';
+          companyForm.style.display = 'none';
+          personProgressContainer.style.display = 'block';
+          companyProgressContainer.style.display = 'none';
+      });
+
+      companyButton.addEventListener('click', function() {
+          companyButton.classList.replace('btn-outline-primary', 'btn-primary');
+          personButton.classList.replace('btn-primary', 'btn-outline-primary');
+
+          personForm.style.display = 'none';
+          companyForm.style.display = 'block';
+          personProgressContainer.style.display = 'none';
+          companyProgressContainer.style.display = 'block';
+      });
+  });
+  
+  const person_button = document.getElementById('person');
+  const company_button = document.getElementById('company');
+  const person_form = document.getElementById('person_form');
+  const company_form = document.getElementById('company_form');
+  const person_progress_bar = document.getElementById('person_progress_bar');
+  const company_progress_bar = document.getElementById('company_progress_bar');
+
+  person_button.addEventListener('click', function() {
+      company_button.setAttribute('class', 'btn btn-outline-primary');
+      person_button.setAttribute('class', 'btn btn-primary');
+
+      person_form.setAttribute('style', 'display: block;');
+      company_form.setAttribute('style', 'display: none;');
+
+      person_progress_bar.setAttribute('style', 'display: block;');
+      company_progress_bar.setAttribute('style', 'display: none;');
+    });
+    company_button.addEventListener('click', function() {
+      company_button.setAttribute('class', 'btn btn-primary');
+      person_button.setAttribute('class', 'btn btn-outline-primary');
+
+      person_form.setAttribute('style', 'display: none;');
+      company_form.setAttribute('style', 'display: block');
+
+      person_progress_bar.setAttribute('style', 'display: none;');
+      company_progress_bar.setAttribute('style', 'display: block;');
+    });
+
+    let districtIndex = 2; // Start at 2 since district1 is already visible
+
+    function showNextDistrict() {
+        if (districtIndex <= 5) {
+            document.getElementById('district' + districtIndex).setAttribute('style', 'display: block');
+            districtIndex++;
+
+            // Disable the button when all fields are shown
+            if (districtIndex > 5) {
+                document.getElementById('add-district-button').disabled = true;
+            }
+        }
+    }
+
+    function validatePersian(input) {
+      // Replace any non-Persian character
+      input.value = input.value.replace(/[^\u0600-\u06FF\s]/g, '');
+    }
+  </script>
+{% endblock script %}

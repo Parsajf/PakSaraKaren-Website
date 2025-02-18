@@ -1,0 +1,216 @@
+{% extends "base_submit_project.html" %}
+{% load static %}
+
+{% block head %}
+  <title>SaraCo - صفحه اصلی</title>
+  <!-- SEO Meta Tags-->
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+{% endblock head %}
+
+{% block main %}
+<!-- Page container-->
+  <div class="container mt-5 mb-md-4 py-5">
+    <div class="row">
+      <!-- Page content-->
+      <div class="col-lg-8 add-property">
+        <!-- Breadcrumb-->
+        <nav class="mb-3 pt-md-3" aria-label="Breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{% url 'home' %}">خانه</a></li>
+              <li class="breadcrumb-item active" aria-current="page">ثبت پروژه</li>
+            </ol>
+        </nav>
+        <!-- Title-->
+        <div class="mb-4">
+            <h1 class="h2 mb-0">ثبت ملک جدید</h1>
+            {% comment %} <div class="d-lg-none pt-3 mb-2">65% اطلاعات تکمیل شده است.</div>
+            <div class="progress d-lg-none mb-4" style="height: .25rem;">
+              <div class="progress-bar bg-warning" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+            </div> {% endcomment %}
+        </div>
+        <form method="post" action="" class="needs-validation" novalidate>
+          {% csrf_token %}
+          <!-- Personal info-->
+          <section class="card card-body border-0 shadow-sm p-4 mb-4" id="basic-info">
+              <h2 class="h5 mb-4"><i class="fi-info-circle text-primary fs-5 mt-n1 me-2"></i>اطلاعات شخصی</h2>
+              <div class="row">
+                <div class="col-sm-6 mb-3">
+                  <label class="form-label" for="ap-category">نام<span class="text-danger">*</span></label>
+                  {{ form.first_name }}
+                  {% comment %} <input class="form-control" type="text" id="person-name" placeholder="نام شخص" required> {% endcomment %}
+                </div>
+                <div class="col-sm-6 mb-3">
+                  <label class="form-label" for="ap-type">نام خانوادگی<span class="text-danger">*</span></label>
+                  {{ form.last_name }}
+                  {% comment %} <input class="form-control" type="text" id="personal-last-name" placeholder="نام خانوادگی شخص" required> {% endcomment %}
+                </div>
+              </div>
+              <div class="row">
+                  <div class="col-sm-6 mb-3">
+                    <label class="form-label" for="ap-category">شماره موبایل<span class="text-danger">*</span></label>
+                    {{ form.phone_number }}
+                    {% comment %} <input class="form-control" type="text" id="person-name" placeholder="شماره موبایل" required> {% endcomment %}
+                  </div>
+                  <div class="col-sm-6 mb-3">
+                    <label class="form-label" for="ap-type">ایمیل<span class="text-danger">*</span></label>
+                    {{ form.email }}
+                    {% comment %} <input class="form-control" type="text" id="personal-last-name" placeholder="ایمیل" required> {% endcomment %}
+                  </div>
+              </div>
+          </section>
+          <!-- Location-->
+          <section class="card card-body border-0 shadow-sm p-4 mb-4" id="location">
+            <h2 class="h5 mb-4"><i class="fi-map-pin text-primary fs-5 mt-n1 me-2"></i>موقعیت مکانی</h2>
+            <div class="row">
+              <div class="col-sm-6 mb-3">
+                <label class="form-label" for="state">استان<span class="text-danger">*</span></label>
+                {{ form.state }}
+                {% comment %} <input class="form-control" type="text" id="state" placeholder="استان" required> {% endcomment %}
+              </div>
+              <div class="col-sm-6 mb-3">
+                <label class="form-label" for="city">شهر <span class="text-danger">*</span></label>
+                {{ form.city }}
+                {% comment %} <input class="form-control" type="text" id="city" placeholder="شهر" required> {% endcomment %}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6 mb-3">
+                <label class="form-label" for="district">منطقه<span class="text-danger">*</span></label>
+                {{ form.district }}
+                {% comment %} <input class="form-control" type="number" id="district" min="1" placeholder="منطقه پروژه" required> {% endcomment %}
+              </div>
+              <div class="col-sm-6 mb-3">
+                <label class="form-label" for="ap-zip">کد پستی<span class="text-danger">*</span></label>
+                {{ form.zip_code }}
+                {% comment %} <input class="form-control" type="text" id="zip-code" placeholder="کد پستی" required> {% endcomment %}
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="ap-address">آدرس<span class="text-danger">*</span></label>
+              {{ form.address }}
+              {% comment %} <input class="form-control" type="text" id="address" required> {% endcomment %}
+            </div>
+          </section>
+          <!-- Property details-->
+          <section class="card card-body border-0 shadow-sm p-4 mb-4" id="details">
+            <h2 class="h5 mb-4"><i class="fi-edit text-primary fs-5 mt-n1 me-2"></i>جزئیات ملک</h2>
+            <div class="row">
+              <div class="col-sm-6 mb-3">
+                <label class="form-label" for="ap-category">متراژ<span class="text-danger">*</span></label>
+                {{ form.area }}
+                {% comment %} <input class="form-control" type="text" id="area" placeholder="مساحت کل بر اساس متر مربع" required> {% endcomment %}
+              </div>
+              <div class="col-sm-6 mb-3">
+                <label class="form-label" for="ap-type">تعداد طبقات<span class="text-danger">*</span></label>
+                {{ form.floor_count }}
+                {% comment %} <input class="form-control" type="text" id="floor" placeholder="" required> {% endcomment %}
+              </div>
+            </div>
+            <label class="form-label" for="ap-description">توضیحات </label>
+            {{ form.description }}
+          </section>
+          <!-- Price-->
+          <section class="card card-body border-0 shadow-sm p-4 mb-4" id="price">
+            <h2 class="h5 mb-4"><i class="fi-cash text-primary fs-5 mt-n1 me-2"></i>بودجه</h2>
+            <label class="form-label" for="ap-price">قیمت پیشنهادی</label>
+            {{ form.price }}<span class="form-text">قیمت را به تومان وارد کنید</span>
+          </section>
+          <section class="d-sm-flex justify-content-between pt-2"><button class="btn btn-lg btn-primary w-sm-auto w-100" type="submit">ارسال فرم</button></section> 
+      </form>
+    </div>
+      <!-- Progress of completion-->
+      <aside class="col-lg-3 offset-lg-1 d-none d-lg-block">
+        <div class="sticky-top pt-5">
+          <h6 class="pt-5 mt-3 mb-2" id="progress-text">0% محتوا تکمیل شده است.</h6>
+          <div class="progress mb-4" style="height: .25rem;">
+            <div class="progress-bar bg-primary" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+          <!-- Rest of the sidebar content -->
+          <ul class="list-unstyled">
+            <li class="d-flex align-items-center"><i class="fi-check text-primary me-2"></i><a class="nav-link fw-normal ps-1 p-0" href="#basic-info" data-scroll data-scroll-offset="20">اطلاعات شخصی</a></li>
+            <li class="d-flex align-items-center"><i class="fi-check text-muted me-2"></i><a class="nav-link fw-normal ps-1 p-0" href="#location" data-scroll data-scroll-offset="20">موقعیت مکانی</a></li>
+            <li class="d-flex align-items-center"><i class="fi-check text-muted me-2"></i><a class="nav-link fw-normal ps-1 p-0" href="#details" data-scroll data-scroll-offset="20">جزئیات ملک</a></li>
+          </ul>
+        </div>
+      </aside>      
+    </div>
+  </div> 
+{% endblock main %}
+
+{% block script %}
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Get all input fields within each section
+      const sections = [
+        { id: 'basic-info', fields: document.querySelectorAll('#basic-info input') },
+        { id: 'location', fields: document.querySelectorAll('#location input, #location select') },
+        { id: 'details', fields: document.querySelectorAll('#details input:not([name="description"])') },
+        //{ id: 'price', fields: document.querySelectorAll('#price input:not([name="description"])') }
+      ];
+
+      const progressBar = document.querySelector(".progress-bar");
+
+      // Function to calculate completion percentage
+      function calculateProgress() {
+        let completedFields = 0;
+        let totalFields = 0;
+
+        sections.forEach(section => {
+          let sectionCompleted = true; // Track if the entire section is complete
+
+          section.fields.forEach(field => {
+            totalFields += 1;
+            if (field.value.trim() !== "") {
+              completedFields += 1;
+            } else {
+              sectionCompleted = false; // If any field is incomplete, mark section as incomplete
+            }
+          });
+
+          // Change the section status in the navigation list
+          const sectionNavItem = document.querySelector(`a[href="#${section.id}"]`).parentElement; // Get the parent <li>
+          if (sectionCompleted) {
+            sectionNavItem.querySelector('i').classList.remove('text-muted');
+            sectionNavItem.querySelector('i').classList.add('text-primary');
+          } else {
+            sectionNavItem.querySelector('i').classList.remove('text-primary');
+            sectionNavItem.querySelector('i').classList.add('text-muted');
+          }
+        });
+
+        // Calculate percentage
+        const completionPercentage = (completedFields / totalFields) * 100;
+
+        // Update progress bar width and aria-valuenow attribute
+        progressBar.style.width = `${completionPercentage}%`;
+        progressBar.setAttribute("aria-valuenow", completionPercentage);
+
+        // Update the text above the progress bar
+        document.getElementById("progress-text").textContent = `${Math.round(completionPercentage)}% محتوا تکمیل شده است.`;
+      }
+
+      // Set initial completion to 31%
+      const initialCompletionPercentage = 0; 
+      progressBar.style.width = `${initialCompletionPercentage}%`;
+      progressBar.setAttribute("aria-valuenow", initialCompletionPercentage);
+      document.getElementById("progress-text").textContent = `${initialCompletionPercentage} % محتوا تکمیل شده است.`;
+
+      // Add event listeners to each field to update progress on input change
+      sections.forEach(section => {
+        section.fields.forEach(field => {
+          field.addEventListener("input", calculateProgress);
+        });
+      });
+
+      // Initial calculation to set progress on page load
+      calculateProgress();
+    });
+
+    function validatePersian(input) {
+      // Replace any non-Persian character
+      input.value = input.value.replace(/[^\u0600-\u06FF\s]/g, '');
+    }
+  </script>
+{% endblock script %}

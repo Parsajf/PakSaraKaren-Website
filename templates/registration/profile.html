@@ -1,0 +1,336 @@
+{% extends "base_profile.html" %}
+{% load static %}
+
+{% block head %}
+  <title>SaraCo - صفحه اصلی</title>
+  <!-- SEO Meta Tags-->
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+{% endblock head %}
+
+{% block main %}
+    <!-- Breadcrumb-->
+    <nav class="mb-3 mb-md-4 pt-md-3" aria-label="Breadcrumb">
+        <ol class="breadcrumb breadcrumb-light">
+            <li class="breadcrumb-item"><a href="job-board-home-v1.html">خانه</a></li>
+            <li class="breadcrumb-item"><a href="job-board-account-profile.html">حساب کاربری</a></li>
+            <li class="breadcrumb-item active" aria-current="page">تنظیمات پروفایل من</li>
+        </ol>
+    </nav>
+    <!-- Page card like wrapper-->
+    <div class="bg-light rounded-3 p-4 p-md-5 mb-2">
+        <!-- Account header-->
+        <div class="d-flex align-items-start justify-content-between pb-4 mb-2">
+            <div class="d-flex align-items-start">
+                <div class="ps-3 ps-sm-4">
+                    <h3 class="h5">
+                        {% if user.user_type == "company" %}
+                            شرکت {{ user.name }}
+                        {% else %}
+                            {{ user.first_name }} {{ user.last_name }}
+                        {% endif %}
+                    </h3>
+                    <ul class="list-unstyled fs-sm mb-0">
+                        <li class="d-flex text-nav text-break"><i class="fi-mail opacity-60 mt-1 me-2"></i><span>{{ user.email }}</span></li>
+                        <li class="d-flex text-nav text-break"><i class="fi-phone opacity-60 mt-1 me-2"></i><span>{{ user.phone_number }}</span></li>
+                    </ul>
+                </div>
+            </div>
+            <a class="nav-link p-0 d-none d-md-block" href="{% url 'logout' %}"><i class="fi-logout mt-n1 me-2"></i>خروج</a>
+        </div>
+        <!-- Account menu-->
+        <a class="btn btn-outline-primary btn-lg rounded-pill w-100 d-md-none" href="#account-nav" data-bs-toggle="collapse"><i class="fi-align-justify me-2"></i>منو پروفایل من</a>
+        <div class="collapse d-md-block" id="account-nav">
+            <ul class="nav nav-pills flex-column flex-md-row pt-3 pt-md-0 pb-md-4 border-bottom-md">
+                <li class="nav-item mb-md-0 me-md-2 pe-md-1"><a class="nav-link active" aria-current="page" id="setting_part" style="cursor: pointer;"><i class="fi-settings mt-n1 me-2 fs-base"></i>تنظیمات پروفایل من</a></li>
+                <li class="nav-item mb-md-0 me-md-2 pe-md-1"><a class="nav-link" id="filter_part" style="cursor: pointer;"><i class="fi-heart mt-n1 me-2 fs-base"></i>پروژه های مورد نیاز</a></li>
+            </ul>
+        </div>
+        <!-- Authorization info-->
+        <div class="row pt-4 mt-3" id="Authorization">
+            <div class="col-lg-3">
+              <h2 class="h5 font-vazir">اطلاعات ورود به اکانت</h2>
+            </div>
+            <div class="col-lg-9">
+                <div class="border rounded-3 p-3" id="auth-info">
+                    <!-- Email-->
+                    <div class="border-bottom pb-3 mb-3">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="ps-2">
+                                <label class="form-label fw-bold">پست الکترونیکی</label>
+                                <div id="email-value">{{ user.email }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Password-->
+                    <div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="ps-2">
+                                <label class="form-label fw-bold">رمز عبور</label>
+                                <div>********</div>
+                            </div>
+                            <div class="me-n3" data-bs-toggle="tooltip" title="ویرایش"><a class="nav-link py-0" href="#password-collapse" data-bs-toggle="collapse"><i class="fi-edit"></i></a></div>
+                        </div>
+                        <div class="collapse" id="password-collapse" data-bs-parent="#auth-info">
+                            <form method="POST" action="{% url 'change-password' %}">
+                                {% csrf_token %}
+                                {% for field in password_form %}
+                                    <div class="row gx-3 align-items-center my-3">
+                                        <label class="col-sm-4 col-md-3 col-form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                        <div class="col-sm-8 col-md-9">
+                                            <div class="password-toggle">
+                                                {% comment %} <input class="form-control" type="password" id="account-password-current" placeholder="رمز عبور فعلی را وارد کنید"> {% endcomment %}
+                                                {{ field }}
+                                                <label class="password-toggle-btn" aria-label="Show/hide password">
+                                                    <input class="password-toggle-check" type="checkbox"><span class="password-toggle-indicator"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                <button type="submit" class="btn btn-primary">Change Password</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Personal details-->
+        <div class="row pt-4 mt-2" id="personal-detail">
+            <div class="col-lg-3">
+                <h2 class="h5 font-vazir">
+                    {% if user.name %}
+                        اطلاعات شرکت
+                    {% else %}
+                        اطلاعات فردی
+                    {% endif %}
+                </h2>
+            </div>
+            <div class="col-lg-9">
+                <div class="border rounded-3 p-3" id="personal-details">
+                    <!-- Full name-->
+                    <div class="border-bottom pb-3 mb-3">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="ps-2">
+                                <label class="form-label fw-bold">
+                                    {% if user.name %}
+                                        نام شرکت
+                                    {% else %}
+                                        نام و نام خانوادگی
+                                    {% endif %}
+                                </label>
+                                <div id="fn-value">
+                                    {{ user.name }}
+                                    {{ user.first_name }} {{ user.last_name }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Full name-->
+                    <div class="border-bottom pb-3 mb-3">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="ps-2">
+                                <label class="form-label fw-bold">
+                                    {% if user.name %}
+                                        شماره شرکت
+                                    {% else %}
+                                        شماره موبایل
+                                    {% endif %}
+                                </label>
+                                <div id="fn-value">{{ user.phone_number }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Full name-->
+                    <div class="border-bottom pb-3 mb-3">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="ps-2">
+                                <label class="form-label fw-bold">استان</label>
+                                <div id="fn-value">{{ user.state }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Full name-->
+                    <div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="ps-2">
+                                <label class="form-label fw-bold">شهر</label>
+                                <div id="fn-value">{{ user.city }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Personal details-->
+        <div class="row pt-4 mt-2" id="filters" style="display: none;">
+            <div class="col-lg-3">
+                <h2 class="h5 font-vazir">اطلاعات پروژه ها</h2>
+            </div>
+            <div class="col-lg-9">
+                <div class="border rounded-3 p-3" id="personal-details">
+                    <!-- Full name-->
+                    <div class="border-bottom pb-3 mb-3">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="ps-2">
+                                <label class="form-label fw-bold">متراژ</label>
+                                <div id="fn-value">{{ user.max_area }} - {{ user.min_area }}</div>
+                            </div>
+                            <div class="me-n3" data-bs-toggle="tooltip" title="ویرایش"><a class="nav-link py-0" href="#area" data-bs-toggle="collapse"><i class="fi-edit"></i></a></div>
+                        </div>
+                        <div class="collapse" id="area" data-bs-parent="#personal-details">
+                            <form method="POST", action="{% url 'change-area' %}">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-sm-5 mb-3">
+                                        {{ area_form.min_area }}
+                                        {% comment %} <input class="form-control" type="text" id="min-area" placeholder="حداقل متراژ" required> {% endcomment %}
+                                    </div>
+                                    <div style="text-align: center;" class="col-sm-2 mb-3">
+                                        <label class="form-label" for="ap-category">تا</label>
+                                    </div>
+                                    <div class="col-sm-5 mb-3">
+                                        {{ area_form.max_area }}
+                                        {% comment %} <input class="form-control" type="text" id="max-area" placeholder="حداکثر متراژ" required> {% endcomment %}
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">ثبت</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Full name-->
+                    <div class="border-bottom pb-3 mb-3">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="ps-2">
+                                <label class="form-label fw-bold">طبقات</label>
+                                <div id="fn-value">
+                                    {% if user.max_floors %}
+                                        {{ user.max_floors }}
+                                    {% endif %}
+                                    -
+                                    {% if user.min_floors %}
+                                    {{ user.min_floors }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="me-n3" data-bs-toggle="tooltip" title="ویرایش"><a class="nav-link py-0" href="#floors" data-bs-toggle="collapse"><i class="fi-edit"></i></a></div>
+                        </div>
+                        <div class="collapse" id="floors" data-bs-parent="#personal-details">
+                            <form method="POST", action="{% url 'change-floors' %}">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-sm-5 mb-3">
+                                        {{ floors_form.min_floors }}
+                                        {% comment %} <input class="form-control" type="text" id="min-area" placeholder="حداقل متراژ" required> {% endcomment %}
+                                    </div>
+                                    <div style="text-align: center;" class="col-sm-2 mb-3">
+                                        <label class="form-label" for="ap-category">تا</label>
+                                    </div>
+                                    <div class="col-sm-5 mb-3">
+                                        {{ floors_form.max_floors }}
+                                        {% comment %} <input class="form-control" type="text" id="max-area" placeholder="حداکثر متراژ" required> {% endcomment %}
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">ثبت</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Full name-->
+                    <div class="">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="ps-2">
+                                <label class="form-label fw-bold">منطقه</label>
+                                <div id="fn-value">
+                                    {{ user.district_1st }}
+                                    {% if user.district_2nd %}
+                                        و {{ user.district_2nd }}
+                                    {% endif %}
+                                    {% if user.district_3rd %}
+                                        و {{ user.district_3rd }}
+                                    {% endif %}
+                                    {% if user.district_4th %}
+                                        و {{ user.district_4th }}
+                                    {% endif %}
+                                    {% if user.district_5th %}
+                                        و {{ user.district_5th }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="me-n3" data-bs-toggle="tooltip" title="ویرایش"><a class="nav-link py-0" href="#districts" data-bs-toggle="collapse"><i class="fi-edit"></i></a></div>
+                        </div>
+                        <div class="collapse" id="districts" data-bs-parent="#personal-details">
+                            <form method="POST", action="{% url 'change-districts' %}">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-sm-2 mb-3">
+                                        {{ district_form.district_1st }}
+                                    </div>
+                                    <div class="col-sm-2 mb-3">
+                                        {{ district_form.district_2nd }}
+                                    </div>
+                                    <div class="col-sm-2 mb-3">
+                                        {{ district_form.district_3rd }}
+                                    </div>
+                                    <div class="col-sm-2 mb-3">
+                                        {{ district_form.district_4th }}
+                                    </div>
+                                    <div class="col-sm-2 mb-3">
+                                        {{ district_form.district_5th }}
+                                    </div>
+                                    <div class="col-sm-2 mb-3">
+                                        <button type="button" id="add-district-button" class="fi-plus me-2 btn btn-lg btn-primary w-100" onclick="showNextDistrict()"></button>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">ثبت</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock main %}
+
+{% block script %}
+    <script>
+        const Authorization_setion = document.getElementById('Authorization');
+        const personal_setion = document.getElementById('personal-detail');
+        const filter_setion = document.getElementById('filters');
+        const setting_part = document.getElementById('setting_part');
+        const filter_part = document.getElementById('filter_part');
+
+        setting_part.addEventListener('click', function() {
+            Authorization_setion.setAttribute('style', '');
+            personal_setion.setAttribute('style', '');
+
+            filter_setion.setAttribute('style', 'display: none;');
+
+            setting_part.setAttribute('class', 'nav-link active');
+            filter_part.setAttribute('class', 'nav-link');
+        });
+        filter_part.addEventListener('click', function() {
+            filter_setion.setAttribute('style', '');
+
+            Authorization_setion.setAttribute('style', 'display: none;');
+            personal_setion.setAttribute('style', 'display: none;');
+
+            setting_part.setAttribute('class', 'nav-link');
+            filter_part.setAttribute('class', 'nav-link active');
+        });
+
+        let districtIndex = 2; // Start at 2 since district1 is already visible
+
+        function showNextDistrict() {
+            if (districtIndex <= 5) {
+                document.getElementById('district' + districtIndex).setAttribute('style', 'display: block');
+                districtIndex++;
+
+                // Disable the button when all fields are shown
+                if (districtIndex > 5) {
+                    document.getElementById('add-district-button').disabled = true;
+                }
+            }
+        }
+    </script>
+{% endblock script %}

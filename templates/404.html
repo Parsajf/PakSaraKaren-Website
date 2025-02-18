@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa">
+  
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<head>
+    <meta charset="utf-8">
+    <title>صفحه 404</title>
+    <!-- SEO Meta Tags-->
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <!-- Viewport-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon and Touch Icons-->
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="mask-icon" color="#5bbad5" href="safari-pinned-tab.svg">
+    <meta name="msapplication-TileColor" content="#766df4">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Vendor Styles-->
+    <link rel="stylesheet" media="screen" href="{% static 'vendor/simplebar/dist/simplebar.min.css' %}"/>
+    <!-- Main Theme Styles + Bootstrap-->
+    <link rel="stylesheet" media="screen" href="{% static 'css/theme.min.css' %}">
+  </head>
+  <body dir="rtl">
+    <main class="page-wrapper">
+      <!-- Page content-->
+      <section class="d-flex align-items-center min-vh-100 py-5 bg-secondary">
+        <div class="container d-flex justify-content-center text-center">
+          <div class="col-lg-8 col-md-10 col-12 px-0">
+            <div class="ratio ratio-16x9 mb-lg-5 mb-4">
+              <img class="rounded-3" src="{% static 'undraw_page_not_found_re_e9o6.svg' %} %}" alt="404 ERROR">
+            </div>
+            <h1 class="h3 pt-lg-4">متأسفیم، {{ massage }}.</h1>
+            <p class="lead mb-5 pb-lg-2">یا حذف شد یا لینک را اشتباه تایپ کردید.</p><a class="btn btn-lg btn-primary rounded-pill w-sm-auto w-100 mb-3 me-sm-4" href="city-guide-home-v1.html">صفحه اصلی</a><a class="btn btn-lg btn-outline-primary rounded-pill w-sm-auto w-100 mb-3" href="city-guide-contacts.html">تماس با ما</a>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- Back to top button--><a class="btn-scroll-top" href="#top" data-scroll><span class="btn-scroll-top-tooltip text-muted fs-sm ms-2">بالا</span><i class="btn-scroll-top-icon fi-chevron-up">   </i></a>
+    <!-- Vendor scrits: js libraries and plugins-->
+    <script src="{% static 'vendor/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'vendor/simplebar/dist/simplebar.min.js'%}"></script>
+    <script src="{% static 'vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js' %}"></script>
+    <script src="{% static 'vendor/lottiefiles/lottie-player/dist/lottie-player.js' %}"></script>
+    <!-- Main theme script-->
+    <script src="{% static 'js/theme.min.js' %}"></script>
+  </body>
+
+</html>

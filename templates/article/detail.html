@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+    <title>SaraCo -  درباره ما</title>
+    <!-- SEO Meta Tags-->
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+{% endblock head %}
+
+{% block main %}
+    <div class="container mt-5 mb-md-2 mb-lg-4 py-5">
+        <!-- Breadcrumb-->
+        <nav class="mb-3 pt-md-3" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">خانه</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'articles' %}">وبلاگ</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ article.title }}</li>
+            </ol>
+        </nav>
+        <h1 class="h4 pb-3 font-vazir">{{ article.title }}</h1>
+        <img class="rounded-3" src="{{ article.image.url }}" alt="Post image">
+    </div>
+    <div class="row mt-4 pt-3">
+        <!-- Sidebar (offcanvas)-->
+        <aside class="col-lg-4">
+            <div class="offcanvas-lg offcanvas-end pe-lg-3" id="blog-sidebar">
+                <div class="offcanvas-header shadow-sm mb-2">
+                    <h3 class="h5 offcanvas-title">سایدبار</h3>
+                    <button class="btn-close" type="button" data-bs-dismiss="offcanvas"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <!-- Search-->
+                    <div class="position-relative mb-4">
+                        <input class="form-control pe-5" type="text" id="search-box" placeholder="جستجو...">
+                        <i class="fi-search position-absolute top-50 end-0 translate-middle-y me-3"></i>
+                    </div>
+                    <!-- Categories-->
+                    <div class="card card-flush pb-2 pb-lg-0 mb-4">
+                        <div class="card-body">
+                            <h3 class="h5 font-vazir">دسته بندی ها</h3>
+                            {% for category in categories %}
+                                <a class="nav-link fw-normal d-flex justify-content-between py-1 px-0" href="#">{{ category.name }}<span class="text-muted ms-2">({{ category.get_article_count }})</span></a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <!-- Tags-->
+                    <div class="card card-flush pb-2 pb-lg-0 mb-4">
+                        <div class="card-body">
+                            <h4 class="h5 font-vazir">تگ های پربازدید</h4>
+                            <form method="GET" action="{{ request.path }}">
+                                <div class="d-flex flex-wrap mb-n1">
+                                    {% for tag in tags %}
+                                        <button type="submit" class="btn btn-xs btn-outline-secondary rounded-pill fs-sm fw-normal me-2 mb-2" name="tag" value="{{ tag.id }}">
+                                            {{ tag.name }}
+                                        </button>
+                                    {% endfor %}
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <!-- Post content-->
+        <div class="col-lg-8 blog-details">
+            <!-- Post meta-->
+            <div class="d-flex flex-wrap border-bottom pb-3 mb-4"><a class="text-uppercase text-decoration-none border-end pe-3 me-3 mb-2" href="{% url 'articles-by-category' {{ article.category.slug }} %}">{{ article.title }}</a>
+                <div class="d-flex align-items-center border-end pe-3 me-3 mb-2"><i class="fi-calendar-alt opacity-70 me-2"></i><span>{{ article.persian_date }}</span></div>
+                <a class="nav-link-muted d-flex align-items-center mb-2" href="#"><i class="fi-eye-on opacity-70 me-2"></i><span>{{ article.view_count }}</span></a>
+            </div>
+            <div id="article-body">
+                {{ article.body }}
+            </div>
+            <!-- Tags-->
+            <div class="pt-4">
+                <div class="d-md-flex align-items-center justify-content-between border-top pt-4">
+                    <div class="d-flex align-items-center me-3 mb-3 mb-md-0">
+                        <div class="d-none d-sm-block fw-bold text-nowrap mb-2 me-2 pe-1">برچسب ها:</div>
+                        <div class="d-flex flex-wrap">
+                            {% for tag in article_tags %}
+                                <a class="btn btn-xs btn-outline-secondary rounded-pill fs-sm fw-normal me-2 mb-2" href="#">{{ tag.name }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Recent posts-->
+    <div class="pt-5 mt-md-4 mb-lg-2">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4 pb-2">
+        <h2 class="h4 mb-sm-0 font-vazir">ممکن است شما نیز علاقه مند باشید</h2><a class="btn btn-link fw-normal ms-sm-3 p-0" href="city-guide-blog.html">لیست مقالات<i class="fi-arrow-long-left ms-2"></i></a>
+    </div>
+    <!-- Carousel-->
+    <div class="tns-carousel-wrapper tns-nav-outside">
+        <div class="tns-carousel-inner d-block" data-carousel-options="{&quot;controls&quot;: false, &quot;gutter&quot;: 24, &quot;autoHeight&quot;: true, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1,&quot;nav&quot;:true},&quot;500&quot;:{&quot;items&quot;:2},&quot;850&quot;:{&quot;items&quot;:3},&quot;1200&quot;:{&quot;items&quot;:3}}}">
+            <!-- Item-->
+            {% for article in recommended_articles %}
+                <article>
+                    <a class="d-block mb-3" href="city-guide-blog-single.html">
+                        <img class="rounded-3" src="{{ article.image.url }}" alt="{{ article.title }}">
+                    </a>
+                    <a class="fs-sm text-uppercase text-decoration-none" href="{{ article.category.get_absolute_url }}">{{article.title}}</a>
+                    <h3 class="fs-lg pt-1">
+                        <a class="nav-link" href="city-guide-blog-single.html">{{ article.title }}</a>
+                    </h3>
+                    <a class="d-flex align-items-center text-decoration-none" href="{{ article.get_absolute_url }}">
+                        <div class="ps-2">
+                            <div class="d-flex text-body fs-xs"><span class="me-2 pe-1"><i class="fi-calendar-alt opacity-70 mt-n1 me-1 align-middle"></i>{{ article.persian_date }}</span><span><i class="fi-eye-on opacity-70 mt-n1 me-1 align-middle"></i>{{ article.view_count }}</span></div>
+                        </div>
+                    </a>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock main %}
+
+{% block script %}
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const searchBox = document.getElementById("search-box");
+            const articleBody = document.getElementById("article-body");
+        
+            searchBox.addEventListener("input", function () {
+                const searchQuery = searchBox.value.trim();
+                const articleText = articleBody.innerHTML;
+        
+                if (searchQuery) {
+                    const regex = new RegExp(`(${searchQuery})`, "gi");
+                    const highlightedText = articleText.replace(regex, '<span class="highlight">$1</span>');
+                    articleBody.innerHTML = highlightedText;
+                } else {
+                    // If the search box is empty, reset the article body text
+                    articleBody.innerHTML = articleText;
+                }
+            });
+        });
+    </script>
+{% endblock script %}

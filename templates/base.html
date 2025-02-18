@@ -1,0 +1,219 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa">
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <head>
+        <meta charset="utf-8">
+
+        {% block head %}{% endblock head %}
+
+        <!-- Viewport-->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Manifest-->
+        <link rel="manifest" href="{% static 'site.webmanifest' %}">
+        <!-- Vendor Styles-->
+        <link rel="stylesheet" media="screen" href="{% static '/vendor/simplebar/dist/simplebar.min.css' %}"/>
+        <link rel="stylesheet" media="screen" href="{% static '/vendor/tiny-slider/dist/tiny-slider.css' %}"/>
+        <!-- Main Theme Styles + Bootstrap-->
+        <link rel="stylesheet" media="screen" href="{% static 'css/theme.min.css' %}">
+    </head>
+    <body dir="rtl">
+        <main class="page-wrapper">
+            <!-- Sign In Modal-->
+            <div class="modal fade" id="signin-modal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered p-2 my-0 mx-auto" style="max-width: 950px;">
+                    <div class="modal-content">
+                        <div class="modal-body px-0 py-2 py-sm-0">
+                            <button class="btn-close position-absolute top-0 end-0 mt-3 me-3" type="button" data-bs-dismiss="modal"></button>
+                            <div class="row mx-0 align-items-center">
+                                <div class="col-md-6 border-end-md p-4 p-sm-5">
+                                    <h2 class="h3 mb-4 mb-sm-5">سلام!<br>به سایت ما خوش آمدید.</h2><img class="d-block mx-auto rotate-img" src="{% static '/img/undraw_login_re_4vu2.svg' %}" width="344" alt="Illustartion">
+                                    <div class="mt-4 mt-sm-5">هنوز ثبت نام نکرده اید؟ <a href="#signup-modal" data-bs-toggle="modal" data-bs-dismiss="modal">ثبت نام</a></div>
+                                </div>
+                                <div class="col-md-6 px-4 pt-2 pb-4 px-sm-5 pb-sm-5 pt-md-5">
+                                    <form class="needs-validation" novalidate>
+                                        <div class="mb-4">
+                                            <label class="form-label mb-2" for="signin-email">پست الکترونیکی</label>
+                                            <input class="form-control" type="email" id="signin-email" placeholder="ایمیل" required>
+                                        </div>
+                                        <div class="mb-4">
+                                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                                <label class="form-label mb-0" for="signin-password">رمز عبور</label><a class="fs-sm" href="#">رمز عبور را فراموش کرده اید؟</a>
+                                            </div>
+                                            <div class="password-toggle">
+                                                <input class="form-control" type="password" id="signin-password" placeholder="پسوورد خود را وارد کنید" required>
+                                                <label class="password-toggle-btn" aria-label="Show/hide password">
+                                                    <input class="password-toggle-check" type="checkbox"><span class="password-toggle-indicator"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-primary btn-lg w-100" type="submit">ورود به حساب کاربری</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Sign Up Modal-->
+            <div class="modal fade" id="signup-modal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered p-2 my-0 mx-auto" style="max-width: 950px;">
+                    <div class="modal-content">
+                        <div class="modal-body px-0 py-2 py-sm-0">
+                            <button class="btn-close position-absolute top-0 end-0 mt-3 me-3" type="button" data-bs-dismiss="modal"></button>
+                            <div class="row mx-0 align-items-center">
+                                <div class="col-md-6 border-end-md p-4 p-sm-5">
+                                    <h2 class="h3 mb-4 mb-sm-5">در سایت ما با اطمینان ثبت نام کنید.</h2>
+                                    <ul class="list-unstyled mb-4 mb-sm-5">
+                                        <li class="d-flex mb-2"><i class="fi-check-circle text-primary mt-1 me-2"></i><span>افزودن و ارتقا آگهی</span></li>
+                                        <li class="d-flex mb-2"><i class="fi-check-circle text-primary mt-1 me-2"></i><span>مدیریت لیست علاقه مندی ها</span></li>
+                                        <li class="d-flex mb-0"><i class="fi-check-circle text-primary mt-1 me-2"></i><span>ثبت نظر</span></li>
+                                    </ul><img class="d-block mx-auto" src="{% static '/img/undraw_undraw_undraw_undraw_sign_up_ln1s_-1-_s4bc_-1-_ee41_-1-_kf4d.svg' %}" width="344" alt="Illustartion">
+                                    <div class="mt-sm-4 pt-md-3">ثبت نام کرده اید؟ <a href="#signin-modal" data-bs-toggle="modal" data-bs-dismiss="modal">ورود به حساب کاربری</a></div>
+                                </div>
+                                <div class="col-md-6 px-4 pt-2 pb-4 px-sm-5 pb-sm-5 pt-md-5">
+                                    <form class="needs-validation" novalidate>
+                                        <div class="mb-4">
+                                            <label class="form-label" for="signup-name">نام و نام خانوادگی</label>
+                                            <input class="form-control" type="text" id="signup-name" placeholder="نام و نام خانوادگی خود را وارد کنید" required>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label class="form-label" for="signup-email">پست الکترونیکی</label>
+                                            <input class="form-control" type="email" id="signup-email" placeholder="ایمیل" required>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label class="form-label" for="signup-password">رمز عبور <span class='fs-sm text-muted'>حداقل 8 کاراکتر</span></label>
+                                            <div class="password-toggle">
+                                                <input class="form-control" type="password" id="signup-password" minlength="8" required>
+                                                <label class="password-toggle-btn" aria-label="Show/hide password">
+                                                <input class="password-toggle-check" type="checkbox"><span class="password-toggle-indicator"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label class="form-label" for="signup-password-confirm">تایید رمز عبور</label>
+                                            <div class="password-toggle">
+                                                <input class="form-control" type="password" id="signup-password-confirm" minlength="8" required>
+                                                <label class="password-toggle-btn" aria-label="Show/hide password">
+                                                <input class="password-toggle-check" type="checkbox"><span class="password-toggle-indicator"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-check mb-4">
+                                            <input class="form-check-input" type="checkbox" id="agree-to-terms" required>
+                                            <label class="form-check-label" for="agree-to-terms"> با ثبت نام در این سایت <a href='#'> شرایط</a> و <a href='#'>قوانین </a> سایت را قبول دارم.</label>
+                                        </div>
+                                        <button class="btn btn-primary btn-lg w-100" type="submit">ثبت نام</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Navbar-->
+            <header class="navbar navbar-expand-lg navbar-light bg-light fixed-top" data-scroll-header>
+                <div class="container"><a class="navbar-brand ms-3 ms-xl-4 logo" href="{% url 'home' %}"><img class="d-block" src="{% static '/icons/logo.png' %}" width="116" alt="PakSara"></a>
+                    {% comment %} <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button><a class="btn btn-primary btn-sm ms-2 order-lg-3" href="#signin-modal" data-bs-toggle="modal"><i class="fi-plus me-2"></i>ثبت پروژه</a> {% endcomment %}
+                    {% comment %} <a class="btn btn-sm text-primary d-none d-lg-block order-lg-3" href="{% url 'login' %}" data-bs-toggle="modal"><i class="fi-user me-2"></i>ورود | عضویت</a>
+                    <a class="btn btn-primary btn-sm ms-2 order-lg-3" href="{% url 'submit-project' %}"><i class="fi-plus me-2"></i>ثبت<span class='d-none d-sm-inline'> پروژه</span></a> {% endcomment %}
+                    {% if user.is_authenticated %}
+                        <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button><a class="btn btn-sm text-primary d-none d-lg-block order-lg-3" href="{% url 'profile' %}"><i class="fi-user me-2"></i>پروفایل</a>
+                    {% else %}
+                        <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button><a class="btn btn-sm text-primary d-none d-lg-block order-lg-3" href="{% url 'login' %}"><i class="fi-user me-2"></i>ورود | عضویت</a>
+                    {% endif %}
+                    <a class="btn btn-primary btn-sm ms-2 order-lg-3" href="{% url 'submit-project' %}"><i class="fi-plus me-2"></i>ثبت<span class='d-none d-sm-inline'> پروژه</span></a>
+                    <div class="collapse navbar-collapse order-lg-2" id="navbarNav">
+                        <ul class="navbar-nav navbar-nav-scroll" style="max-height: 35rem;">
+                            <!-- Articles-->
+                            <li class="nav-item dropdown py-2 me-lg-2">
+                                <a class="nav-link dropdown-toggle align-items-center border-end-lg py-1 pe-lg-4" href="" data-bs-toggle="dropdown" role="button" aria-expanded="false">
+                                    مقالات
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{%  url 'articles' %}"><i class="fs-base opacity-50 me-2"></i>همه مقالات</a></li>
+                                    <li class="dropdown-divider"></li>
+                                    {% for categoriy in categories %}
+                                        <li><a class="dropdown-item" href=""><i class="fs-base opacity-50 me-2"></i>{{ category.name }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                            <!-- Menu items-->
+                            <li><a class="nav-link" href="{% url 'home' %}" role="button" aria-expanded="false">خانه</a></li>
+                            <li><a class="nav-link" href="{% url 'about' %}" role="button" aria-expanded="false">درباره ما</a></li>
+                            <li><a class="nav-link" href="{% url 'project-list' %}" role="button" aria-expanded="false">پروژه های ما</a></li>
+                            {% comment %} <a class="btn btn-primary btn-sm ms-2 order-lg-3" href="real-estate-add-property.html"><i class="fi-plus me-2"></i>ثبت<span class='d-none d-sm-inline'> ملک</span></a>
+                            <a class="btn btn-primary btn-sm ms-2 order-lg-3" href="#signin-modal" data-bs-toggle="modal"><i class="fi-user me-2"></i>ورود / ثبت نام</a> {% endcomment %}
+                        </ul>
+                    </div>
+                </div>
+            </header>
+
+            {% block main %}{% endblock main %}
+
+        </main>
+
+        <footer class="footer bg-secondary pt-5">
+            <div class="container pt-lg-4 pb-4">
+                <!-- Links-->
+                <div class="row mb-5 pb-md-3 pb-lg-4">
+                    <div class="col-lg-6 mb-lg-0 mb-4">
+                        <div class="d-flex flex-sm-row flex-column justify-content-between mx-n2">
+                            <div class="mb-sm-0 mb-4 px-2"><a class="d-inline-block mb-4" href="real-estate-home-v1.html"><img src="{% static '/icons/logo.png' %}" width="116" alt="logo"></a>
+                                <ul class="nav flex-column mb-sm-4 mb-2">
+                                    <li class="nav-item mb-2"><a class="nav-link p-0 fw-normal" href=""><i class="fi-mail mt-n1 me-2 align-middle opacity-70"></i>paksarakaren@gmail.com</a></li>
+                                    <li class="nav-item mb-2"><a class="nav-link p-0 fw-normal" href=""><i class="fi-device-mobile mt-n1 me-2 align-middle opacity-70"></i>02188565270 - 02188560096</a></li>
+                                    <li class="nav-item"><a class="nav-link p-0 fw-normal" href=""><i class="fi-map-pin mt-n1 me-2 align-middle opacity-70"></i>تهران-تهران<br>بلوار فرحزادی-بالاتراز بلوار دریا<br>کوچه عباسی اناری-پلاک ۹۳</a></li>
+                                </ul>
+                                <div class="pt-2"><a class="btn btn-icon btn-light-primary btn-xs shadow-sm rounded-circle me-2 mb-2" href="#"><i class="fi-linkedin"></i></a><a class="btn btn-icon btn-light-primary btn-xs shadow-sm rounded-circle me-2 mb-2" href="#"><i class="fi-instagram"></i></a><a class="btn btn-icon btn-light-primary btn-xs shadow-sm rounded-circle me-2 mb-2" href="#"><i class="fi-whatsapp"></i></a><a class="btn btn-icon btn-light-primary btn-xs shadow-sm rounded-circle me-2 mb-2" href="#"><i class="fi-telegram"></i></a></div>
+                            </div>
+                            <div class="mb-sm-0 mb-4 px-2">
+                                <h4 class="h5">لینک های سریع</h4>
+                                <ul class="nav flex-column">
+                                    <li class="nav-item mb-2"><a class="nav-link p-0 fw-normal" href="#">پروژه های ما</a></li>
+                                    <li class="nav-item mb-2"><a class="nav-link p-0 fw-normal" href="#">خواندن مقالات</a></li>
+                                </ul>
+                            </div>
+                            <div class="px-2">
+                                <h4 class="h5">درباره</h4>
+                                <ul class="nav flex-column">
+                                    <li class="nav-item mb-2"><a class="nav-link p-0 fw-normal" href="{% url 'about' %}">درباره ما</a></li>
+                                    <li class="nav-item mb-2"><a class="nav-link p-0 fw-normal" href="{% url 'contact-us' %}">تماس با ما</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-5 col-lg-6 offset-xl-1">
+                        <h4 class="h5">مقالات اخیر</h4>
+                        {% for last_article in last_articles %}
+                            <article class="d-flex align-items-start" style="max-width: 640px;">
+                                <a class="d-none d-sm-block flex-shrink-0 me-sm-4 mb-sm-0 mb-3" href="{{ article.get_absolute_url }}">
+                                    <img class="rounded-3" src="{{ article.image.url }}" width="100" alt="Blog post">
+                                </a>
+                                <div>
+                                    <h6 class="mb-1 fs-sm fw-normal text-uppercase text-primary">{{ article.category.name }}</h6>
+                                    <h5 class="mb-2 fs-base"><a class="nav-link" href="real-estate-blog-single.html">{{ article.title }}</a></h5>
+                                    <p class="mb-2 fs-sm">{{ article.body|slice:":20" }}</p><a class="nav-link nav-link-muted d-inline-block me-3 p-0 fs-xs fw-normal" href="#"><i class="fi-calendar mt-n1 me-1 fs-sm align-middle opacity-70"></i>24 خرداد</a><a class="nav-link nav-link-muted d-inline-block me-3 p-0 fs-xs fw-normal" href="#"><i class="fi-chat-circle mt-n1 me-1 fs-sm align-middle opacity-70"></i>2 کامنت</a>
+                                </div>
+                            </article>
+                            <hr class="text-dark opacity-10 my-4">
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="text-center fs-sm pt-4 mt-3 pb-2">&copy; تمام حقوق این سایت محفوظ است . ارائه شده در سایت <a href="{% url 'home' %}" class='d-inline-block nav-link p-0' rel='noopener'>پاک سرا کارن</a></div>
+            </div>
+        </footer>
+        <!-- Back to top button-->
+        <a class="btn-scroll-top" href="#top" data-scroll><span class="btn-scroll-top-tooltip text-muted fs-sm ms-2">بالا</span><i class="btn-scroll-top-icon fi-chevron-up">   </i></a>
+        <!-- Vendor scrits: js libraries and plugins-->
+        <script src="{% static '/vendor/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static '/vendor/simplebar/dist/simplebar.min.js' %}"></script>
+        <script src="{% static '/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js' %}"></script>
+        <script src="{% static '/vendor/tiny-slider/dist/min/tiny-slider.js' %}"></script>
+        <!-- Main theme script-->
+        <script src="{% static '/js/theme.min.js' %}"></script>
+
+        {% block script %}{% endblock script %}
+
+    </body>
+</html>

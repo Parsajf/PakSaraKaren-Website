@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+  <title>SaraCo - صفحه اصلی</title>
+  <!-- SEO Meta Tags-->
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+{% endblock head %}
+
+{% block main %}
+    <div class="container mt-5 mb-md-4 py-5">
+        <!-- Breadcrumb + page title-->
+        <nav class="mb-3 pt-md-3" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">خانه</a></li>
+                <li class="breadcrumb-item active" aria-current="page">پروژه های انجام شده توسط ما</li>
+            </ol>
+        </nav>
+        <!-- Articles grid-->
+        <div class="row row-cols-md-2 row-cols-1 gy-md-5 gy-4 mb-lg-5 mb-4 blog-list">
+            <!-- Articles-->
+            {% for project in projects %}
+                <article class="col pb-2 pb-md-1">
+                    <a class="d-block position-relative mb-3" href="">
+                        <img class="d-block rounded-3" src="{{ project.primary_image.image.url }}" alt="">
+                    </a>
+                    <h3 class="h5 mb-2 pt-1"><a class="nav-link" href="real-estate-blog-single.html">{{ project.title }}</a></h3>
+                </article>
+            {% endfor %}
+        </div>
+        <!-- Pagination-->
+        <nav class="pt-4 pb-2 border-top" aria-label="Blog pagination">
+            <ul class="pagination mb-0">
+
+                <!-- Current Page Display for Small Screens -->
+                <li class="page-item d-sm-none">
+                    <span class="page-link page-link-static">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+                </li>
+
+                <!-- First Page Link -->
+                {% if page_obj.has_previous %}
+                    <li class="page-item d-none d-sm-block">
+                        <a class="page-link" href="?page=1">1</a>
+                    </li>
+                {% else %}
+                    <li class="page-item active d-none d-sm-block" aria-current="page">
+                        <span class="page-link">1<span class="visually-hidden">(current)</span></span>
+                    </li>
+                {% endif %}
+
+                <!-- Pages in Between -->
+                {% for page_num in page_obj.paginator.page_range %}
+                    {% if page_num > 1 and page_num < page_obj.paginator.num_pages %}
+                        {% if page_num == page_obj.number %}
+                            <li class="page-item active d-none d-sm-block" aria-current="page">
+                                <span class="page-link">{{ page_num }}<span class="visually-hidden">(current)</span></span>
+                            </li>
+                        {% elif page_num >= page_obj.number|add:"-1" and page_num <= page_obj.number|add:"1" %}
+                            <li class="page-item d-none d-sm-block">
+                                <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                            </li>
+                        {% elif page_num == page_obj.number|add:"2" or page_num == page_obj.number|add:"-2" %}
+                            <li class="page-item d-none d-sm-block">...</li>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+
+                <!-- Last Page Link -->
+                {% if page_obj.has_next %}
+                    <li class="page-item d-none d-sm-block">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+                    </li>
+                {% endif %}
+
+                <!-- Next Page Link -->
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                            <i class="fi-chevron-right"></i>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+{% endblock main %}

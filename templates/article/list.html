@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+  <title>SaraCo -  درباره ما</title>
+  <!-- SEO Meta Tags-->
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+{% endblock head %}
+
+{% block main %}
+    <div class="container mt-5 mb-md-4 py-5">
+        <!-- Breadcrumb + page title-->
+        <nav class="mb-3 pt-md-1" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">خانه</a></li>
+            {% if not category %}
+                <li class="breadcrumb-item active" aria-current="page">مقالات</li>
+            {% else %}
+                <li class="breadcrumb-item active" aria-current="page">{{caregory}} مقالات</li>
+            {% endif %}
+            </ol>
+        </nav>
+        <div class="row">
+            <aside class="col-lg-3">
+                <div class="offcanvas-lg offcanvas-end" id="blog-sidebar">
+                    <div class="offcanvas-header shadow-sm mb-2">
+                        <h2 class="h5 offcanvas-title">سایدبار</h2>
+                        <button class="btn-close" type="button" data-bs-dismiss="offcanvas"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <form method="GET" action="{{ request.path }}">
+                            <!-- Sorting -->
+                            <div class="d-flex align-items-center mb-4">
+                                <label class="d-inline-block me-2 pe-1 text-muted text-nowrap" for="sort">
+                                    <i class="fi-arrows-sort mt-n1 me-1 align-middle opacity-80"></i>مرتب سازی براساس:
+                                </label>
+                                <select class="form-select pe-5" id="sort" name="sort" onchange="this.form.submit()">
+                                    <option value="جدیدترین" {% if sort_option == 'جدیدترین' %}selected{% endif %}>جدیدترین</option>
+                                    <option value="قدیمی ترین" {% if sort_option == 'قدیمی ترین' %}selected{% endif %}>قدیمی ترین</option>
+                                    <option value="پربازدید ترین" {% if sort_option == 'پربازدید ترین' %}selected{% endif %}>پربازدید ترین</option>
+                                </select>
+                                <input type="hidden" name="search" value="{{ search_query }}">
+                            </div>
+                        </form>
+                        <form method="GET" action="{{ request.path }}">
+                            <!-- Search -->
+                            <div class="position-relative mb-4">
+                                <input class="form-control pe-5" type="text" name="search" value="{{ search_query }}" placeholder="جستجو...">
+                                <i class="fi-search position-absolute top-50 end-0 translate-middle-y me-3"></i>
+                                <input type="hidden" name="sort" value="{{ sort_option }}">
+                            </div>
+                        </form>
+                        <!-- Categories-->
+                        <div class="card card-flush pb-2 pb-lg-0 mb-4">
+                            <div class="card-body">
+                                <h3 class="h5 font-vazir">دسته بندی ها</h3>
+                                {% for category in categories %}
+                                    <a class="nav-link fw-normal d-flex justify-content-between py-1 px-0" href="#">{{ category.name }}<span class="text-muted ms-2">({{ category.get_article_count }})</span></a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <!-- Tags-->
+                        <div class="card card-flush pb-2 pb-lg-0 mb-4">
+                            <div class="card-body">
+                                <h4 class="h5 font-vazir">تگ های پربازدید</h4>
+                                <form method="GET" action="{{ request.path }}">
+                                    <div class="d-flex flex-wrap mb-n1">
+                                        {% for tag in tags %}
+                                            <button type="submit" class="btn btn-xs btn-outline-secondary rounded-pill fs-sm fw-normal me-2 mb-2" name="tag" value="{{ tag.id }}">
+                                                {{ tag.name }}
+                                            </button>
+                                        {% endfor %}
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            <!-- Articles list-->
+            <div class="col-lg-9 blog-list">
+                <div class="ps-lg-3">
+                    {% for article in articles %}
+                        <article class="card card-horizontal border-0 mb-4">
+                            <a class="card-img-top position-relative rounded-3 me-sm-4 mb-sm-0 mb-3" href="{{ article.get_absolute_url }}" style="background-image: url({{ article.image.url }});"></a>
+                            {% if not category %}
+                                <div class="card-body px-0 pt-0 pb-lg-5 pb-sm-4 pb-2"><a class="fs-sm text-uppercase text-decoration-none" href="#">{{ article.category.name }}</a>
+                            {% endif %}
+                                <h3 class="h5 pt-1 mb-2"><a class="nav-link" href="city-guide-blog-single.html">{{ article.title }}</a></h3>
+                                <p class="fs-sm text-muted">{{ article.body|slice:":50" }}</p>
+                                <div class="ps-2">
+                                <div class="d-flex text-body fs-xs"><span class="me-2 pe-1"><i class="fi-calendar-alt opacity-70 mt-n1 me-1 align-middle"></i>{{ article.persian_date }}</span><span><i class="fi-eye-on opacity-70 mt-n1 me-1 align-middle"></i>{{ article.view_count }}</span></div>
+                                </div></a>
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
+                <!-- Pagination-->
+                {% if page_obj.paginator.num_pages > 1 %}
+                    <nav class="pt-4 pb-2 border-top" aria-label="Blog pagination">
+                        <ul class="pagination mb-0">
+                            <li class="page-item d-sm-none">
+                                <span class="page-link page-link-static">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+                            </li>
+                            <!-- First page link -->
+                            <li class="page-item {% if page_obj.number == 1 %}active{% endif %}">
+                                <a class="page-link" href="?page=1{{ '&search='|add:search_query|urlencode }}&sort={{ sort_option|urlencode }}">1<span class="visually-hidden">(current)</span></a>
+                            </li>
+                            <!-- Page number links -->
+                            {% for i in page_obj.paginator.page_range %}
+                                {% if page_obj.number == i %}
+                                    <li class="page-item active"><span class="page-link">{{ i }}<span class="visually-hidden">(current)</span></span></li>
+                                {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ i }}{{ '&search='|add:search_query|urlencode }}&sort={{ sort_option|urlencode }}">{{ i }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            <!-- Next button -->
+                            {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{{ '&search='|add:search_query|urlencode }}&sort={{ sort_option|urlencode }}" aria-label="Next">
+                                        <i class="fi-chevron-right"></i>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock main %}
